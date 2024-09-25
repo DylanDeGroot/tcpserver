@@ -10,10 +10,11 @@ import random
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
 #ip=socket.gethostbyname('localhost')
+ip = '0.0.0.0'
 port=3303
 size = 1024
 backlog = 2
-address=('',port) 
+address=(ip,port) 
 sock.bind(address)
 # Listen for incoming connections
 sock.listen(backlog)
