@@ -9,7 +9,7 @@ import random
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
-ip=socket.gethostbyname("127.0.0.1")
+ip=socket.gethostbyname("13.56.253.227")
 port=3303
 size = 1024
 backlog = 2
