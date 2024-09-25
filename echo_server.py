@@ -30,12 +30,12 @@ while True:
     except BlockingIOError:
         pass
         # Receive the data in small chunks and retransmit it
-    for connection in connections:
-        try:
-            message = connection.recv(size)
-            print(message.decode())
-        except BlockingIOError:
-            continue
+        for connection in connections:
+            try:
+                message = connection.recv(size)
+                print(message.decode())
+            except BlockingIOError:
+                continue
 
         for connection in connections:
             connection.send(message.encode())
