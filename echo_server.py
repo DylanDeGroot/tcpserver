@@ -33,6 +33,7 @@ while True:
     for connection in connections:
         try:
             message = connection.recv(size)
+            print(message)
         except BlockingIOError:
             continue
 
