@@ -9,7 +9,7 @@ import random
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
-ip=socket.gethostbyname("13.56.253.227")
+ip=socket.gethostbyname('localhost')
 port=3303
 size = 1024
 backlog = 2
@@ -17,20 +17,23 @@ address=(ip,port)
 sock.bind(address)
 # Listen for incoming connections
 sock.listen(backlog)
-
+connections = []
 while True:
-    # Wait for a connection
-    print('waiting for a connection')
-    connection, client_address = sock.accept()
     try:
+        # Wait for a connection
+        print('waiting for a connection')
+        connection, client_address = sock.accept()
+        connection.setblocking(False)
+        connections.append(connection)
         print('connection from', client_address)
-
+    except BlockingIOError:
+        pass
         # Receive the data in small chunks and retransmit it
-        while True:
-            data = connection.recv(size)
-            if not data:
-                break
-            connection.sendall(data)
-    finally:
-        # Clean up the connection
-        connection.close()
+    for connection in connections:
+        try:
+            message = connection.recv(4096)
+        except BlockingIOError:
+            continue
+
+        for connection in connections:
+            connection.send(message)
