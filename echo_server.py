@@ -33,9 +33,9 @@ while True:
     for connection in connections:
         try:
             message = connection.recv(size)
-            print(message)
+            print(message.decode())
         except BlockingIOError:
             continue
 
         for connection in connections:
-            connection.send(message)
+            connection.send(message.encode())
