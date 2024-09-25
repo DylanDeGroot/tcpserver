@@ -32,7 +32,7 @@ while True:
         # Receive the data in small chunks and retransmit it
     for connection in connections:
         try:
-            message = connection.recv(4096)
+            message = connection.recv(size)
         except BlockingIOError:
             continue
 
