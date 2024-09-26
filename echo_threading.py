@@ -3,6 +3,8 @@ import _thread
 
 class SocketServer(socket.socket):
     clients = []
+    PCs = []
+    lights = []
 
     def __init__(self):
         socket.socket.__init__(self)
@@ -26,22 +28,41 @@ class SocketServer(socket.socket):
     def accept_clients(self):
         while 1:
             (clientsocket, address) = self.accept()
+            #Ask for identification
+            clientsocket.send("Input SN if light or PC")
+            #Wait for response
+            while 1:
+                data = clientsocket.recv(1024)
+                msg = data.decode('utf-8')
+                if not data:
+                    break
+                if "PC" in msg:
+                    self.PCs.append(clientsocket)
+                    client_type = 'PC'
+                if msg.startswith('F'):
+                    self.lights.append(clientsocket)
+                    client_type = 'LIGHT'
             #Adding client to clients list
             self.clients.append(clientsocket)
             #Client Connected
-            self.onopen(clientsocket)
+            self.onopen(clientsocket,client_type)
             #Receiving data from client
-            _thread.start_new_thread(self.recieve, (clientsocket,))
+            _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
 
-    def recieve(self, client):
+    def recieve(self, client, client_type):
         while 1:
             data = client.recv(1024)
+            msg = data.decode('utf-8')
             if not data:
                 break
             #Message Received
-            self.onmessage(client, data)
+            self.onmessage(client, data, client_type)
         #Removing client from clients list
         self.clients.remove(client)
+        if 'PC' in client_type:
+            self.PCs.remove(client)
+        if 'LIGHT' in client_type:
+            self.lights.remove(client)
         #Client Disconnected
         self.onclose(client)
         #Closing connection with client
@@ -50,12 +71,18 @@ class SocketServer(socket.socket):
         _thread.exit()
         print(self.clients)
 
-    def broadcast(self, message):
+    def broadcast(self, message, client_type):
+        if 'PC' in client_type:
+            for light in self.lights:
+                light.send(message)
+        if 'LIGHT' in client_type:
+            for PC in self.PCs:
+                PC.send(message)
         #Sending message to all clients
-        for client in self.clients:
-            client.send(message)
+        #for client in self.clients:
+            #client.send(message)
 
-    def onopen(self, client):
+    def onopen(self, client,client_type):
         pass
 
     def onmessage(self, client, message):
@@ -68,16 +95,24 @@ class BasicChatServer(SocketServer):
     def __init__(self):
         SocketServer.__init__(self)
 
-    def onmessage(self, client, message):
-        print("Client Sent Message")
-        #Sending message to all clients
-        self.broadcast(message)
+    def onmessage(self, client, message, client_type):
+        if 'PC' in client_type:
+            print("PC Sent Message")
+        if 'LIGHT' in client_type:
+            print("LIGHT Sent Message")
+        #broadcast message to
+        self.broadcast(message, client_type)
 
-    def onopen(self, client):
-        print("Client Connected")
-
-    def onclose(self, client):
-        print("Client Disconnected")
+    def onopen(self, client, client_type):
+        if 'PC' in client_type:
+            print("PC Connected")
+        if 'LIGHT' in client_type:
+            print("LIGHT Connected")
+    def onclose(self, client, client_type):
+        if 'PC' in client_type:
+            print("PC Disconnected")
+        if 'LIGHT' in client_type:
+            print("LIGHT Disconnected")
 
 def main():
     server = BasicChatServer()
