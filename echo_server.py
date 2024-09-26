@@ -20,6 +20,7 @@ sock.bind(address)
 sock.listen(backlog)
 connections = []
 while True:
+    try:
         # Wait for a connection
         print('waiting for a connection')
         connection, client_address = sock.accept()
@@ -29,3 +30,6 @@ while True:
         message = connection.recv(size)
         print(message)
         connection.send(message)
+    except BlockingIOError:
+        continue
+        
