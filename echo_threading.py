@@ -12,13 +12,13 @@ class SocketServer(socket.socket):
         self.listen(5)
 
     def run(self):
-        print "Server started"
+        print("Server started")
         try:
             self.accept_clients()
         except Exception as ex:
             print ex
         finally:
-            print "Server closed"
+            print("Server closed")
             for client in self.clients:
                 client.close()
             self.close()
@@ -48,7 +48,7 @@ class SocketServer(socket.socket):
         client.close()
         #Closing thread
         thread.exit()
-        print self.clients
+        print(self.clients)
 
     def broadcast(self, message):
         #Sending message to all clients
@@ -69,15 +69,15 @@ class BasicChatServer(SocketServer):
         SocketServer.__init__(self)
 
     def onmessage(self, client, message):
-        print "Client Sent Message"
+        print("Client Sent Message")
         #Sending message to all clients
         self.broadcast(message)
 
     def onopen(self, client):
-        print "Client Connected"
+        print("Client Connected")
 
     def onclose(self, client):
-        print "Client Disconnected"
+        print("Client Disconnected")
 
 def main():
     server = BasicChatServer()
