@@ -23,7 +23,6 @@ while True:
         # Wait for a connection
         print('waiting for a connection')
         connection, client_address = sock.accept()
-        connection.setblocking(False)
         connections.append(connection)
         print('connection from', client_address)
         message = connection.recv(size)
