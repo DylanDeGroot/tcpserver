@@ -8,7 +8,7 @@ class SocketServer(socket.socket):
         socket.socket.__init__(self)
         #To silence- address occupied!!
         self.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.bind(('0.0.0.0', 3030))
+        self.bind(('0.0.0.0', 3303))
         self.listen(5)
 
     def run(self):
