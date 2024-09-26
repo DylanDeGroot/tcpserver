@@ -47,7 +47,7 @@ class SocketServer(socket.socket):
                     self.onopen(clientsocket,client_type)
                     #Receiving data from client
                     _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
-                if b'F' in data[0]
+                if b'F' in data[0]:
                     self.lights.append(clientsocket)
                     client_type = 'LIGHT'
                     #Adding client to clients list
