@@ -13,14 +13,13 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ip = "0.0.0.0"
 port=3303
 size = 1024
-backlog = 2
+backlog = 1
 address=(ip,port) 
 sock.bind(address)
 # Listen for incoming connections
 sock.listen(backlog)
 connections = []
 while True:
-    try:
         # Wait for a connection
         print('waiting for a connection')
         connection, client_address = sock.accept()
@@ -33,6 +32,4 @@ while True:
             connection.send(message)
             print("sent %s bytes back to %s" % (message,client_address))
         connection.close()
-    except BlockingIOError:
-        continue
         
