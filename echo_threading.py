@@ -1,5 +1,5 @@
 import socket
-from threading import Thread
+import _thread
 
 class SocketServer(socket.socket):
     clients = []
@@ -31,7 +31,7 @@ class SocketServer(socket.socket):
             #Client Connected
             self.onopen(clientsocket)
             #Receiving data from client
-            thread.start_new_thread(self.recieve, (clientsocket,))
+            _thread.start_new_thread(self.recieve, (clientsocket,))
 
     def recieve(self, client):
         while 1:
@@ -47,7 +47,7 @@ class SocketServer(socket.socket):
         #Closing connection with client
         client.close()
         #Closing thread
-        thread.exit()
+        _thread.exit()
         print(self.clients)
 
     def broadcast(self, message):
