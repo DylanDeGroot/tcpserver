@@ -28,8 +28,11 @@ while True:
         connections.append(connection)
         print('connection from', client_address)
         message = connection.recv(size)
-        print(message)
-        connection.send(message)
+        if message:
+            print("Message Received!: %s" %message)
+            connection.send(message)
+            print("sent %s bytes back to %s" % (message,client_address))
+        connection.close()
     except BlockingIOError:
         continue
         
