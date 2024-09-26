@@ -41,15 +41,21 @@ class SocketServer(socket.socket):
                 if b'PC' in data:
                     self.PCs.append(clientsocket)
                     client_type = 'PC'
+                    #Adding client to clients list
+                    self.clients.append(clientsocket)
+                    #Client Connected
+                    self.onopen(clientsocket,client_type)
+                    #Receiving data from client
+                    _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
                 if data.startswith(b'F'):
                     self.lights.append(clientsocket)
                     client_type = 'LIGHT'
-                #Adding client to clients list
-                self.clients.append(clientsocket)
-                #Client Connected
-                self.onopen(clientsocket,client_type)
-                #Receiving data from client
-                _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
+                    #Adding client to clients list
+                    self.clients.append(clientsocket)
+                    #Client Connected
+                    self.onopen(clientsocket,client_type)
+                    #Receiving data from client
+                    _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
 
     def recieve(self, client, client_type):
         while 1:
