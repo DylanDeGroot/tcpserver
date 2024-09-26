@@ -38,7 +38,7 @@ class SocketServer(socket.socket):
                 #msg = data.decode('utf-8')
                 if not data:
                     break
-                if "PC" in data:
+                if 'PC' in data:
                     self.PCs.append(clientsocket)
                     client_type = 'PC'
                 if data.startswith('F'):
