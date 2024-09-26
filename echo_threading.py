@@ -87,7 +87,7 @@ class SocketServer(socket.socket):
                 light.send(message)
         if 'LIGHT' in client_type:
             for PC in self.PCs:
-                PC.send(message)
+                PC.send(message, '\n')
         #Sending message to all clients
         #for client in self.clients:
             #client.send(message)
