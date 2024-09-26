@@ -35,10 +35,10 @@ class SocketServer(socket.socket):
             #Wait for response
             while 1:
                 data = clientsocket.recv(1024)
-                #msg = data.decode('utf-8')
+                msg = data.decode('utf-8')
                 if not data:
                     break
-                if b'PC' in data:
+                if b'PC' in msg:
                     self.PCs.append(clientsocket)
                     client_type = 'PC'
                     #Adding client to clients list
@@ -47,7 +47,7 @@ class SocketServer(socket.socket):
                     self.onopen(clientsocket,client_type)
                     #Receiving data from client
                     _thread.start_new_thread(self.recieve, (clientsocket,), client_type)
-                if b'F' in data[0]:
+                if msg.startswith(b'F'):
                     self.lights.append(clientsocket)
                     client_type = 'LIGHT'
                     #Adding client to clients list
