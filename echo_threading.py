@@ -31,7 +31,7 @@ class SocketServer(socket.socket):
             (clientsocket, address) = self.accept()
             time.sleep(2)
             #Ask for identification
-            clientsocket.send(b'Input SN if light or PC')
+            clientsocket.send(b'Input SN if light or PC: \n')
             #Wait for response
             while 1:
                 data = clientsocket.recv(1024)
