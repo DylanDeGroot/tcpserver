@@ -36,7 +36,7 @@ class SocketServer(socket.socket):
     def recieve(self, client):
         while 1:
             data = client.recv(1024)
-            if data == 'goodbye':
+            if data == "goodbye":
                 break
             #Message Received
             self.onmessage(client, data)
