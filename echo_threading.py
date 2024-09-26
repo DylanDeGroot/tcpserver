@@ -33,13 +33,13 @@ class SocketServer(socket.socket):
             #Wait for response
             while 1:
                 data = clientsocket.recv(1024)
-                msg = data.decode('utf-8')
+                #msg = data.decode('utf-8')
                 if not data:
                     break
-                if "PC" in msg:
+                if "PC" in data:
                     self.PCs.append(clientsocket)
                     client_type = 'PC'
-                if msg.startswith('F'):
+                if data.startswith('F'):
                     self.lights.append(clientsocket)
                     client_type = 'LIGHT'
             #Adding client to clients list
