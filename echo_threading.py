@@ -1,5 +1,5 @@
 import socket
-import thread
+from threading import Thread
 
 class SocketServer(socket.socket):
     clients = []
