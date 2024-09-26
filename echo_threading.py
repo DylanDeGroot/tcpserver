@@ -74,7 +74,7 @@ class SocketServer(socket.socket):
         if 'LIGHT' in client_type:
             self.lights.remove(client)
         #Client Disconnected
-        self.onclose(client)
+        self.onclose(client, client_type)
         #Closing connection with client
         client.close()
         #Closing thread
