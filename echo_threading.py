@@ -48,6 +48,7 @@ class SocketServer(socket.socket):
                     self.onopen(clientsocket,client_type)
                     #Receiving data from client
                     _thread.start_new_thread(self.recieve, (clientsocket, client_type))
+                    break
                 if msg.startswith("F"):
                     self.lights.append(clientsocket)
                     client_type = 'LIGHT'
@@ -57,6 +58,7 @@ class SocketServer(socket.socket):
                     self.onopen(clientsocket,client_type)
                     #Receiving data from client
                     _thread.start_new_thread(self.recieve, (clientsocket, client_type))
+                    break
 
     def recieve(self, client, client_type):
         while 1:
