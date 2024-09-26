@@ -1,5 +1,6 @@
 import socket
 import _thread
+import time
 
 class SocketServer(socket.socket):
     clients = []
@@ -28,6 +29,7 @@ class SocketServer(socket.socket):
     def accept_clients(self):
         while 1:
             (clientsocket, address) = self.accept()
+            time.sleep(5)
             #Ask for identification
             clientsocket.send("Input SN if light or PC")
             #Wait for response
