@@ -36,7 +36,7 @@ class SocketServer(socket.socket):
             while 1:
                 data = clientsocket.recv(1024)
                 msg = data.decode('utf-8')
-                print(msg)
+                #print(msg)
                 if not data:
                     break
                 if 'PC' in msg:
