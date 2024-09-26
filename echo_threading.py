@@ -29,7 +29,7 @@ class SocketServer(socket.socket):
     def accept_clients(self):
         while 1:
             (clientsocket, address) = self.accept()
-            time.sleep(5)
+            time.sleep(2)
             #Ask for identification
             clientsocket.send(b'Input SN if light or PC')
             #Wait for response
@@ -61,7 +61,6 @@ class SocketServer(socket.socket):
     def recieve(self, client, client_type):
         while 1:
             data = client.recv(1024)
-            msg = data.decode('utf-8')
             if not data:
                 break
             #Message Received
@@ -91,10 +90,10 @@ class SocketServer(socket.socket):
         #for client in self.clients:
             #client.send(message)
 
-    def onopen(self, client,client_type):
+    def onopen(self, client):
         pass
 
-    def onmessage(self, client, message):
+    def onmessage(self, client):
         pass
 
     def onclose(self, client):
