@@ -88,7 +88,7 @@ class SocketServer(socket.socket):
         if 'LIGHT' in client_type:
             for PC in self.PCs:
                 PC.send(message)
-                PC.send("\n")
+                PC.send(("\n").encode('utf-8'))
         #Sending message to all clients
         #for client in self.clients:
             #client.send(message)
