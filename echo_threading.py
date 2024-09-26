@@ -16,7 +16,7 @@ class SocketServer(socket.socket):
         try:
             self.accept_clients()
         except Exception as ex:
-            print ex
+            print(ex)
         finally:
             print("Server closed")
             for client in self.clients:
